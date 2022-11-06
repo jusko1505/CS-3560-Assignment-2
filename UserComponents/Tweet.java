@@ -1,3 +1,4 @@
+package UserComponents;
 public class Tweet {
     private String tweet;
 

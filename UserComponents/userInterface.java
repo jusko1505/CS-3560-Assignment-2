@@ -1,6 +1,7 @@
+package UserComponents;
 import java.util.*;
 public interface userInterface {
-    public int getID();
+    public String getID();
     public List<Integer> getFollowers();
     public List<Integer> getFollowing();
     public List<String> getNewsFeed();
