@@ -15,7 +15,7 @@ public class UserViewUI {
     private JTextArea userID, tweetMessage;
     private JButton followUser, postTweet;
     private JList currentFollowing, newsFeed;
-    private JTextField currFolText, newsFeedText, myUUIDtext, myUUID;
+    private JTextField currFolText, newsFeedText, myUUIDtext, myUUID, myName;
     private userViewAction action;
     private UserViewButtonFunctions ubf = new UserViewButtonFunctions();
     private User u;
@@ -28,30 +28,27 @@ public class UserViewUI {
     private void initializeObjects(DefaultMutableTreeNode node){
         action = new userViewAction();
         u = (User)node.getUserObject();
-        System.out.println(u.getID());
-        for(String news: u.getNewsFeed()){
-            System.out.println(news);
-        }
-        System.out.println(u.getFollowers());
+
         followScroll = new JScrollPane();
         newsfeedScroll = new JScrollPane();
-        userID = new JTextArea("User ID");
-        tweetMessage = new JTextArea("Tweet Message");
+        userID = new JTextArea("Enter User ID to Follow");
+        tweetMessage = new JTextArea("Enter a Tweet");
         followUser = new JButton("Follow User");
         followUser.addActionListener(action);
         postTweet = new JButton("Post Tweet");
         postTweet.addActionListener(action);
-        currentFollowing = new JList(toArray(u.getFollowing()));
+        currentFollowing = new JList(toArray(u.getFollowingName()));
         newsFeed = new JList(toArray(u.getNewsFeed()));
         currFolText = new JTextField("Currently Following:");
         newsFeedText = new JTextField("News Feed:");
         myUUID = new JTextField((u.getID()));
         myUUIDtext = new JTextField("My UUID:");
+        myName = new JTextField("User: "+u.getName());
+        myName.setEditable(false);
     }
 
     private void buildGUI(){
         jframe = new JFrame("User View");
-        //jframe.setDefaultCloseOperation();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -63,34 +60,34 @@ public class UserViewUI {
         UUIDPanel.add(myUUID);
 
         userIDFollowUser = new JPanel();
-        userIDFollowUser.setLayout(new GridLayout(1,2));
+        userIDFollowUser.setLayout(new GridLayout(2,1));
         userIDFollowUser.add(userID);
         userIDFollowUser.add(followUser);
 
         currentFolPanel = new JPanel();
-        currentFolPanel.setLayout(new GridLayout(2, 1));
+        currentFolPanel.setLayout(new BorderLayout());
         currFolText.setEditable(false);
-        currentFolPanel.add(currFolText);
         followScroll.setViewportView(currentFollowing);
         currentFolPanel.add(followScroll);
         
-
         tweetPostpanel = new JPanel();
-        tweetPostpanel.setLayout(new GridLayout(1,2));
+        tweetPostpanel.setLayout(new GridLayout(2,1));
         tweetPostpanel.add(tweetMessage);
         tweetPostpanel.add(postTweet);
 
         newsFeedPanel =  new JPanel();
-        newsFeedPanel.setLayout(new GridLayout(2, 1));
+        newsFeedPanel.setLayout(new BorderLayout());
         newsFeedText.setEditable(false);
         newsfeedScroll.setViewportView(newsFeed);
-        newsFeedPanel.add(newsFeedText);
         newsFeedPanel.add(newsfeedScroll);
         
+        mainPanel.add(myName);        
         mainPanel.add(UUIDPanel);
         mainPanel.add(userIDFollowUser);
+        mainPanel.add(currFolText);
         mainPanel.add(currentFolPanel);
         mainPanel.add(tweetPostpanel);
+        mainPanel.add(newsFeedText);
         mainPanel.add(newsFeedPanel);
 
         jframe.add(mainPanel);
@@ -102,7 +99,7 @@ public class UserViewUI {
         for(int i  = 0; i < list.size(); i++){
             st[i] = list.get(i);
         }
-        System.out.println("Array length is: " +  st.length);
+        //System.out.println("Array length is: " +  st.length);
         return st;
     }
 
@@ -112,7 +109,6 @@ public class UserViewUI {
     }
 
     class userViewAction implements ActionListener{
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == followUser){
@@ -126,11 +122,4 @@ public class UserViewUI {
         }
         
     }
-/*
-    public static void main(String[] args) {
-        UserViewUI uvu = new UserViewUI();
-        uvu.initAndDisplayGUI(node);
-
-    }
-     */
 }

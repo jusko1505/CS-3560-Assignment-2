@@ -67,7 +67,7 @@ public class userRoot {
             uRoot.add(usergroup);
             numberOfGroups++;
             System.out.print("added a group ");
-            System.out.println(usergroup.getGroupName());
+            System.out.println(usergroup.getName());
         }
     }
 
@@ -88,6 +88,7 @@ public class userRoot {
         return numberOfGroups;
     }
 
+    /* 
     private void checkNumberOfUsersAndGroups(userComponent ug){
         if(ug.getUserComponents(ug).size()==0){
             numberOfUsers++;
@@ -101,6 +102,7 @@ public class userRoot {
         }
         
     }
+    */
 
     private void add(userComponent uc){
         this.userRootList.add(uc);

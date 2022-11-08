@@ -4,9 +4,10 @@ import java.util.*;
 public class User extends userComponent implements  userInterface, Visitable, Observable, Observer{
     private String ID;
     private String name;
-    private HashSet<String> uniqueFollowing;
+    //private HashSet<String> uniqueFollowing;
     private List<String> followers;
     private List<String> following;
+    private List<String> followingName;
     private List<String> newsFeed;
     private List<String> myTweets;
     private List<Observer> observers;
@@ -18,11 +19,13 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
         this.following = new ArrayList<String>();
         this.newsFeed = new ArrayList<String>();
         this.myTweets= new ArrayList<String>();
-        newsFeed.add("Your News Feed Is Empty");
-        myTweets.add("Try Tweeting Something");
+        this.followingName = new ArrayList<String>();
         System.out.println("news feed: "+ newsFeed.size());
         System.out.println("mytweets: "+ myTweets.size());
-        
+    }
+
+    public List<String> getFollowingName(){
+        return this.followingName;
     }
 
     public void updateNewsFeed(){
@@ -31,7 +34,7 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
             for (userComponent uc : userRoot.getUserRoot().getUserRootList()){
                 if(UUID.equals(uc.getID())){
                     for(String tweet: uc.getTweets()){
-                        newsFeed.add(tweet);
+                        newsFeed.add(uc.getName()+": "+tweet);
                     }
                 }
             }
@@ -42,6 +45,8 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
         for(userComponent uc : userRoot.getUserRoot().getUserRootList()){
             if(uc.getID().equals(UUID)){
                 following.add(UUID);
+                followingName.add(uc.getName());
+                uc.addObserver((Observer)this);
                 System.out.println("followed "+ UUID);
                 return;
             }
@@ -52,8 +57,6 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
     public String getName(){
         return this.name;
     }
-
-    
 
     @Override
     public List<userComponent> getUserComponents(userComponent uc) {
@@ -74,7 +77,6 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
             observers = new ArrayList<Observer>();
         }
         observers.add(ob);
-        // TODO Auto-generated method stub
     }
 
     public List<Observer> getObservers(){
@@ -118,7 +120,6 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
 
     @Override
     public String getID() {
-        // TODO Auto-generated method stub
         return this.ID;
     }
 

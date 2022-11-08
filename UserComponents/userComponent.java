@@ -11,4 +11,10 @@ public abstract class userComponent {
     public List<String> getTweets(){
         throw new UnsupportedOperationException();
     }
+    public String getName(){
+        throw new UnsupportedOperationException();
+    }
+    public void addObserver(Observer ob){
+        throw new UnsupportedOperationException();
+    }
 }

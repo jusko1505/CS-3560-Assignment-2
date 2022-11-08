@@ -15,6 +15,7 @@ public class UserViewButtonFunctions{
     }
     public void postTweetButtonAction(User u, String Tweet){
         u.Tweet(Tweet, visitor);
+        u.accept(visitor);
         for(userComponent uc : userRoot.getUserRoot().getUserRootList()){
             if(uc.getID().equals(u.getID())){
                 userRoot.getUserRoot().getUserRootList().remove(uc);

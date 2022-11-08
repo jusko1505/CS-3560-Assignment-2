@@ -11,7 +11,7 @@ public class userGroup extends userComponent implements userGroupInterface{
         this.groupName = groupName;
     }
 
-    public String getGroupName() {
+    public String getName() {
         return groupName;
     }
     public List<String> getTweets(){
