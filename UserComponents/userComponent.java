@@ -8,4 +8,7 @@ public abstract class userComponent {
     public String getID(){
         throw new UnsupportedOperationException();
     }
+    public List<String> getTweets(){
+        throw new UnsupportedOperationException();
+    }
 }

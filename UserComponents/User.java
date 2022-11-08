@@ -4,8 +4,9 @@ import java.util.*;
 public class User extends userComponent implements  userInterface, Visitable, Observable, Observer{
     private String ID;
     private String name;
-    private List<Integer> followers;
-    private List<Integer> following;
+    private HashSet<String> uniqueFollowing;
+    private List<String> followers;
+    private List<String> following;
     private List<String> newsFeed;
     private List<String> myTweets;
     private List<Observer> observers;
@@ -13,12 +14,46 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
     public User(String name) {
         this.ID = UUID.randomUUID().toString();
         this.name = name;
+        this.followers = new ArrayList<String>();
+        this.following = new ArrayList<String>();
+        this.newsFeed = new ArrayList<String>();
+        this.myTweets= new ArrayList<String>();
+        newsFeed.add("Your News Feed Is Empty");
+        myTweets.add("Try Tweeting Something");
+        System.out.println("news feed: "+ newsFeed.size());
+        System.out.println("mytweets: "+ myTweets.size());
         
+    }
+
+    public void updateNewsFeed(){
+        newsFeed = new ArrayList<String>();
+        for(String UUID: following){
+            for (userComponent uc : userRoot.getUserRoot().getUserRootList()){
+                if(UUID.equals(uc.getID())){
+                    for(String tweet: uc.getTweets()){
+                        newsFeed.add(tweet);
+                    }
+                }
+            }
+        }
+    }
+
+    public void follow(String UUID){
+        for(userComponent uc : userRoot.getUserRoot().getUserRootList()){
+            if(uc.getID().equals(UUID)){
+                following.add(UUID);
+                System.out.println("followed "+ UUID);
+                return;
+            }
+        }
+        System.out.println("failed to follow "+ UUID);
     }
 
     public String getName(){
         return this.name;
     }
+
+    
 
     @Override
     public List<userComponent> getUserComponents(userComponent uc) {
@@ -30,6 +65,7 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
         myTweets.add(myTweet);
         accept(v);
         userRoot.getUserRoot().setNumberOfMessages(userRoot.getUserRoot().getNumberOfMessages()+1);
+        System.out.println("successfully tweeted out");
     }
 
     @Override
@@ -57,22 +93,26 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
         visitor.visit(this);
         
     }
-    public List<String> getMyTweets(){
+    public List<String> getTweets(){
         return myTweets;
     }
 
-    public void setFollowers(List<Integer> list){
+    public void setFollowers(List<String> list){
         this.followers = list;
     }
     @Override
-    public List<Integer> getFollowers() {
+    public List<String> getFollowers() {
         return this.followers;
         
     }
 
     @Override
-    public List<Integer> getFollowing() {
-        // TODO Auto-generated method stub
+    public List<String> getFollowing() {
+        if(following.size()==0){
+            ArrayList<String> temp = new ArrayList<String>();
+            temp.add("You are not following anyone");
+            return temp;
+        }
         return this.following;
     }
 
@@ -84,7 +124,12 @@ public class User extends userComponent implements  userInterface, Visitable, Ob
 
     @Override
     public List<String> getNewsFeed() {
-        // TODO Auto-generated method stub
+        updateNewsFeed();
+        if(newsFeed.size()==0){
+            ArrayList<String> temp = new ArrayList<String>();
+            temp.add("No news yet");
+            return temp;
+        }
         return this.newsFeed;
     }
 

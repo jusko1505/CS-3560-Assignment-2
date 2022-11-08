@@ -5,7 +5,7 @@ public class userRoot {
     private int numberOfUsers = 0;
     private int numberOfGroups = 0;
     private int numberOfMessages = 0;
-    private static HashSet<Integer> uniqueUsersAndGroups = new HashSet<Integer>();
+    private static HashSet<String> uniqueUsersAndGroups = new HashSet<String>();
     private List<userComponent> userRootList = new ArrayList<userComponent>();
     private String name = "root";
     
@@ -34,17 +34,50 @@ public class userRoot {
         this.numberOfMessages = number;
     }
 
+    public HashSet<String> returnUniqueID(){
+        return uniqueUsersAndGroups;
+    }
+
     public List<userComponent> getUserRootList(){
         return userRootList;
     }
 
+    public void updateUserRoot(userComponent updatedUser){
+        if(uniqueUsersAndGroups.contains(updatedUser.getID())){
+            for(userComponent uc: userRootList){
+                if(updatedUser.getID()==uc.getID()){
+                    userRootList.remove(uc);
+                    userRootList.add(updatedUser);
+                }
+            }
+        }
+    }
+
+    /*
     public void addToUserRoot(userComponent ug){
         if(!uniqueUsersAndGroups.contains(ug.getID())){
             uRoot.add(ug);
             checkNumberOfUsersAndGroups(ug);
         }
        // checkForDuplicates(ug);
-        
+    }
+     */
+    public void addToUserRoot(userGroup usergroup){
+        if(!uniqueUsersAndGroups.contains(usergroup.getID())){
+            uRoot.add(usergroup);
+            numberOfGroups++;
+            System.out.print("added a group ");
+            System.out.println(usergroup.getGroupName());
+        }
+    }
+
+    public void addToUserRoot(User user){
+        if(!uniqueUsersAndGroups.contains(user.getID())){
+            uRoot.add(user);
+            numberOfUsers++;
+            System.out.print("added a user ");
+            System.out.println(user.getName());
+        }
     }
 
     public int getNumberOfUsers(){
@@ -58,9 +91,11 @@ public class userRoot {
     private void checkNumberOfUsersAndGroups(userComponent ug){
         if(ug.getUserComponents(ug).size()==0){
             numberOfUsers++;
+            System.out.println("added a user");
             return;
         }
         numberOfGroups++;
+        System.out.println("added a group");
         for(userComponent com: ug.getUserComponents(ug)){
             checkNumberOfUsersAndGroups(com);
         }

@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import java.awt.*;
@@ -11,20 +12,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class HomePage {
-    private JButton addUser, addGroup, openUserView, showUserTotal, 
+    protected int minusUser = 0;
+    protected JButton addUser, addGroup, openUserView, showUserTotal, 
     showGroupTotal, showMsgTotal, showPosPercent;
-    private JTextArea userID, groupID, textBox;
+    protected JTextField userID, groupID, textBox;
     private JFrame mainFrame;
     private JPanel rootPanel, buttonPanel, userIDAddUser, groupIDAddGroup,
     showUserGroupTotal, openUserViewPanel, showMsgPos, textBoxPanel;
     private JSplitPane splitPane;
-    private JList<String> rootList;
     private JScrollPane scroll;
-    private DefaultMutableTreeNode root;
-    private JTree tree;
+    protected DefaultMutableTreeNode root;
+    protected JTree tree;
     private ButtonAndTreeAction action;
+    private  ButtonAndSelectionLogic bsl = new ButtonAndSelectionLogic();
     //private Container buttonContainer;
-    private String[] groups = {"stu1", "stu2", "cs3560", "sports", "club"};
+
 
     private void createPage(){
         createButtonsAndTextArea();
@@ -132,7 +134,7 @@ public class HomePage {
 
         user = new User("stu8");
         node = new DefaultMutableTreeNode(user);
-        userRoot.getUserRoot().addToUserRoot(usergroup);
+        userRoot.getUserRoot().addToUserRoot(user);
         temp.add(node);
 
         user = new User("oostu");
@@ -142,23 +144,23 @@ public class HomePage {
 
         tree = new JTree(root);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        tree.addTreeSelectionListener(action);
         tree.setEditable(true);
         scroll = new JScrollPane(tree);
     }
     private void createButtonsAndTextArea(){
-        addUser = new JButton("Add User");
-        addGroup = new JButton("Add Group");
+        addUser = new JButton("New User Name");
+        addGroup = new JButton("New Group Name");
         openUserView = new JButton("Open User View");
         showUserTotal= new JButton("Show User Total");
         showGroupTotal = new JButton("Show Group Total");
         showMsgTotal = new JButton("Show Messages Total");
         showPosPercent= new JButton("Show Positive Percentage");
-        groupID = new JTextArea();
+        groupID = new JTextField();
         groupID.setText("Group ID");
-        userID = new JTextArea();
+        userID = new JTextField();
         userID.setText("User ID");
-        textBox = new JTextArea("Info appears here.");
+        textBox = new JTextField();
+        textBox.setText("Info appears here");
     }
 
     private void addListeners(){
@@ -175,6 +177,7 @@ public class HomePage {
     public void createHomePage(){
         createPage();
         createButtonsAndTextArea();
+        addListeners();
         addUsersAndGroups();
         setGrid();
         createSplitPane();
@@ -185,34 +188,34 @@ public class HomePage {
         hp.createHomePage();
     }
 
-
-    class ButtonAndTreeAction implements ActionListener, TreeSelectionListener{
+    class ButtonAndTreeAction implements ActionListener{
         public void actionPerformed(ActionEvent e){
             if(e.getSource() == addUser){
-                if(addUser.getText()!=null){
-                    User user = new User(addUser.getText());
-                    DefaultMutableTreeNode node = new DefaultMutableTreeNode(user);
-                    UserComponents.userRoot.getUserRoot().addToUserRoot(user);
-                    root.add(node);
-                    tree.updateUI();
+                System.out.println("add user button pressed!");
+                if(!(userID.getText() == "")){
+                    bsl.addUserToGUI(userID.getText(), tree, root);
                 }
                
             }
             else if(e.getSource() == addGroup){
-                if(addGroup.getText()!=null){
-                    DefaultMutableTreeNode node = null;
-                    node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+                if(!(groupID.getText()=="")){
+                    System.out.println("add group button pressed");
+                    bsl.addGroupToGUI(groupID.getText(), tree, root);
+                    minusUser--;
                 }
                
             }
             else if(e.getSource()== openUserView){
+                System.out.println("open user view button pressed");
+                bsl.openUserView(tree);
                 
             }
             else if(e.getSource() == showUserTotal){
-                textBox.setText(String.valueOf(UserComponents.userRoot.getUserRoot().getNumberOfUsers()));
+                textBox.setText(String.valueOf(root.getLeafCount()+minusUser));
 
             }
             else if(e.getSource()== showGroupTotal){
+                textBox.setText(String.valueOf(userRoot.getUserRoot().getNumberOfGroups()));
 
             }
             else if(e.getSource() == showMsgTotal){
@@ -221,12 +224,6 @@ public class HomePage {
             else if(e.getSource() == showPosPercent){
 
             }
-        }
-
-        @Override
-        public void valueChanged(TreeSelectionEvent e) {
-            
-            
         }
         
     }

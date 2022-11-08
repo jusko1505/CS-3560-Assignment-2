@@ -1,5 +1,5 @@
 package UserComponents;
-
+//dont need?
 public class userGroupAndRoot {
     private userRoot ur = userRoot.getUserRoot();
     private int numberOfUsers = 0;
