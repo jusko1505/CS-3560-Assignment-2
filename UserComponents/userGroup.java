@@ -3,10 +3,11 @@ import java.util.*;
 
 // A userGroup contains Users
 public class userGroup extends userComponent implements userGroupInterface{
-    private String groupID;
-    private String groupName;
     // A userGroup can hold Users and recursively hold other userGroups
     private ArrayList<userComponent> userComponents = new ArrayList<userComponent>();
+    private String groupID;
+    private String groupName;
+    
    
 
     //Constructor
