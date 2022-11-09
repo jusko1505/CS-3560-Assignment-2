@@ -219,6 +219,7 @@ public class HomePage {
 
             }
             else if(e.getSource() == showMsgTotal){
+                textBox.setText(String.valueOf(userRoot.getUserRoot().getNumberOfMessages()));
 
             }
             else if(e.getSource() == showPosPercent){

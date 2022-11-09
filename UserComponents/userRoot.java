@@ -5,6 +5,16 @@ public class userRoot {
     private int numberOfUsers = 0;
     private int numberOfGroups = 0;
     private int numberOfMessages = 0;
+    private int numberOfPositive = 0;
+    
+    public int getNumberOfPositive() {
+        return numberOfPositive;
+    }
+
+    public void setNumberOfPositive(int numberOfPositive) {
+        this.numberOfPositive = numberOfPositive;
+    }
+
     private static HashSet<String> uniqueUsersAndGroups = new HashSet<String>();
     private List<userComponent> userRootList = new ArrayList<userComponent>();
     private String name = "root";
@@ -53,15 +63,6 @@ public class userRoot {
         }
     }
 
-    /*
-    public void addToUserRoot(userComponent ug){
-        if(!uniqueUsersAndGroups.contains(ug.getID())){
-            uRoot.add(ug);
-            checkNumberOfUsersAndGroups(ug);
-        }
-       // checkForDuplicates(ug);
-    }
-     */
     public void addToUserRoot(userGroup usergroup){
         if(!uniqueUsersAndGroups.contains(usergroup.getID())){
             uRoot.add(usergroup);
