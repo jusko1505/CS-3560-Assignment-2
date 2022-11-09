@@ -1,11 +1,13 @@
 package UserComponents;
 import java.util.*;
 public interface userInterface {
-    public String getID();
+    public String toString();
     public List<String> getFollowers();
     public List<String> getFollowing();
     public List<String> getNewsFeed();
-    public List<String> getTweets();
-    //public void Tweet(String myTweet);
+    public List<String> getFollowingName();
+    public void setFollowers(List<String> list);
+    public void updateNewsFeed();
+    public void follow(String UUID);
 
 }

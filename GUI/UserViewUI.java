@@ -20,10 +20,6 @@ public class UserViewUI {
     private UserViewButtonFunctions ubf = new UserViewButtonFunctions();
     private User u;
     private JScrollPane followScroll, newsfeedScroll;
-    /*
-    private String[] following = {"jacob", "john", "jack"};
-    private String[] news = {"disaster", "homework due", "traffic"};
-     */
 
     private void initializeObjects(DefaultMutableTreeNode node){
         action = new userViewAction();

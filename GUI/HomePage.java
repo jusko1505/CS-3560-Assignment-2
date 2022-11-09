@@ -1,23 +1,22 @@
 package GUI;
 import UserComponents.*;
+
 import javax.swing.*;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// The "Admin Panel" of the GUI
 public class HomePage {
     protected int minusUser = 0;
     protected JButton addUser, addGroup, openUserView, showUserTotal, 
     showGroupTotal, showMsgTotal, showPosPercent;
     protected JTextField userID, groupID, textBox;
     private JFrame mainFrame;
-    private JPanel rootPanel, buttonPanel, userIDAddUser, groupIDAddGroup,
+    private JPanel buttonPanel, userIDAddUser, groupIDAddGroup,
     showUserGroupTotal, openUserViewPanel, showMsgPos, textBoxPanel;
     private JSplitPane splitPane;
     private JScrollPane scroll;
@@ -25,24 +24,25 @@ public class HomePage {
     protected JTree tree;
     private ButtonAndTreeAction action;
     private  ButtonAndSelectionLogic bsl = new ButtonAndSelectionLogic();
-    //private Container buttonContainer;
 
+    public void createHomePage(){
+        createPage();
+        createButtonsAndTextArea();
+        addListeners();
+        addUsersAndGroups();
+        setGrid();
+        createSplitPane();
+        lastSetup();
+    }
 
     private void createPage(){
         createButtonsAndTextArea();
         mainFrame = new JFrame("Control Panel");
-        //mainFrame.setSize(1000, 600);
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         action = new ButtonAndTreeAction();
     }
 
-    /*
-    private void createScrollPane(){
-        rootList = new JList<String>(groups);
-        rootScrollPane = new JScrollPane(rootList);
-    }
-    */
     private void createSplitPane(){
         splitPane = new JSplitPane(SwingConstants.VERTICAL, scroll, buttonPanel); 
         splitPane.setDividerLocation(200);
@@ -52,10 +52,10 @@ public class HomePage {
 
     private void lastSetup(){
         
-        //mainFrame.pack();
         mainFrame.setSize(600,300);
         mainFrame.setVisible(true);
     }
+
     private void setGrid(){
         userIDAddUser = new JPanel();
         userIDAddUser.setSize(200,10);
@@ -96,6 +96,7 @@ public class HomePage {
         buttonPanel.add(showMsgPos);
         buttonPanel.add(textBoxPanel);
     }
+
     //hard-coded users and groups for demonstration purposes
     private void addUsersAndGroups(){
         DefaultMutableTreeNode node = null;
@@ -147,6 +148,7 @@ public class HomePage {
         tree.setEditable(true);
         scroll = new JScrollPane(tree);
     }
+
     private void createButtonsAndTextArea(){
         addUser = new JButton("New User Name");
         addGroup = new JButton("New Group Name");
@@ -173,21 +175,7 @@ public class HomePage {
         showPosPercent.addActionListener(action);
     }
 
-
-    public void createHomePage(){
-        createPage();
-        createButtonsAndTextArea();
-        addListeners();
-        addUsersAndGroups();
-        setGrid();
-        createSplitPane();
-        lastSetup();
-    }
-    public static void main(String[] args) {
-        HomePage hp = new HomePage();
-        hp.createHomePage();
-    }
-
+    /* Logic for button presses on the Admin Panel */
     class ButtonAndTreeAction implements ActionListener{
         public void actionPerformed(ActionEvent e){
             if(e.getSource() == addUser){
@@ -203,7 +191,6 @@ public class HomePage {
                     bsl.addGroupToGUI(groupID.getText(), tree, root);
                     minusUser--;
                 }
-               
             }
             else if(e.getSource()== openUserView){
                 System.out.println("open user view button pressed");
@@ -223,6 +210,8 @@ public class HomePage {
 
             }
             else if(e.getSource() == showPosPercent){
+                float posPercent = (float)userRoot.getUserRoot().getNumberOfPositive()/userRoot.getUserRoot().getNumberOfMessages();
+                textBox.setText(String.valueOf(posPercent)+"%");
 
             }
         }

@@ -1,44 +1,43 @@
 package UserComponents;
 import java.util.*;
+
+// A userGroup contains Users
 public class userGroup extends userComponent implements userGroupInterface{
     private String groupID;
     private String groupName;
+    // A userGroup can hold Users and recursively hold other userGroups
     private ArrayList<userComponent> userComponents = new ArrayList<userComponent>();
-    //private static HashSet<Integer> uniqueUsers = new HashSet<Integer>();
+   
 
+    //Constructor
     public userGroup(String groupName){
         this.groupID = UUID.randomUUID().toString();
         this.groupName = groupName;
     }
-
-    public String getName() {
-        return groupName;
-    }
-    public List<String> getTweets(){
-        return new ArrayList<String>();
-    }
-
     
-    @Override
-    public String getID() {
-        // TODO Auto-generated method stub
-        return groupID;
-    }
-
-    public String toString(){
-        return this.groupName;
-    }
+    /* Methods from userComponent */
 
     @Override
     public List<userComponent> getUserComponents(userComponent uc) {
-        // TODO Auto-generated method stub
         return this.userComponents;
     }
 
     @Override
-    public List<userComponent> getListOfUserGroups() {
-        return userComponents;
+    public String getID() {
+        return groupID;
     }
+
+    @Override
+    public List<Tweet> getTweets(){
+        return new ArrayList<Tweet>();
+    }
+
+    @Override
+    public String getName() {
+        return groupName;
+    }
+  
+    /* Methods from userGroupInterface */
 
     public void addUserGroup(userComponent uc){
         this.userComponents.add(uc);
@@ -46,5 +45,14 @@ public class userGroup extends userComponent implements userGroupInterface{
 
     public void removeUserGroup(userComponent uc){
         this.userComponents.remove(uc);
+    }
+    
+    public List<userComponent> getListOfUserGroups() {
+        return userComponents;
+    }
+
+    // toString method required to properly display names in GUI
+    public String toString(){
+        return this.groupName;
     }
 }
