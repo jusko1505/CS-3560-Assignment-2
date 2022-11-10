@@ -8,11 +8,19 @@ import java.util.Random;
 public class Tweet {
     private String tweet;
     private boolean positive;
-    private Random random = new Random();
+    //private Random random = new Random();
 
     public Tweet(String tweet){
         this.tweet = tweet;
-        this.positive = random.nextBoolean();
+        this.positive = false;
+        String temp = tweet.toLowerCase();
+        //check if the tweet contains a positive word
+        for(String str: PositiveDict.getPositiveDictInstance().getDict()){
+            if(temp.contains(str)){
+                this.positive = true;
+                return;
+            }
+        }
         System.out.println(this.positive);
     }
 

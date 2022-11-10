@@ -211,7 +211,7 @@ public class HomePage {
             }
             else if(e.getSource() == showPosPercent){
                 float posPercent = (float)userRoot.getUserRoot().getNumberOfPositive()/userRoot.getUserRoot().getNumberOfMessages();
-                textBox.setText(String.valueOf(posPercent)+"%");
+                textBox.setText(String.valueOf(posPercent*100)+"%");
 
             }
         }

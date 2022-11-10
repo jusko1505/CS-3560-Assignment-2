@@ -161,15 +161,5 @@ public class User extends userComponent implements userInterface, Visitable, Obs
     public void update(){
         System.out.println("You have a notification!");
     }
-
-   
-
-
-    
-   
-
-  
-
-    
     
 }
