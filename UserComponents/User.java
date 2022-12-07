@@ -5,6 +5,8 @@ import java.util.*;
 public class User extends userComponent implements userInterface, Visitable, Observable, Observer{
     private String ID;
     private String name;
+    private long creationTime;
+    private long lastUpdated;
     private List<String> followers;
     // Following holds UUID's
     private List<String> following;
@@ -24,6 +26,8 @@ public class User extends userComponent implements userInterface, Visitable, Obs
         this.newsFeed = new ArrayList<String>();
         this.myTweets= new ArrayList<Tweet>();
         this.followingName = new ArrayList<String>();
+        this.creationTime = System.currentTimeMillis();
+        this.lastUpdated = creationTime;
     }
 
     /* Methods from userComponent */
@@ -61,6 +65,17 @@ public class User extends userComponent implements userInterface, Visitable, Obs
         }
         observers.add(ob);
     }
+
+    @Override
+    public long getCreationTime() {
+        return this.creationTime;
+    }
+
+    @Override
+    public long getLastUpdated() {
+        return this.lastUpdated;
+    }
+
 
     /* Methods from userInterface.java */ 
 
@@ -144,6 +159,7 @@ public class User extends userComponent implements userInterface, Visitable, Obs
         userRoot.getUserRoot().setNumberOfMessages(userRoot.getUserRoot().getNumberOfMessages()+1);
         myTweets.add(myTweet);
         accept(v);
+        lastUpdated = System.currentTimeMillis();
         System.out.println("successfully tweeted out");
     }
 

@@ -7,6 +7,8 @@ public class userGroup extends userComponent implements userGroupInterface{
     private ArrayList<userComponent> userComponents = new ArrayList<userComponent>();
     private String groupID;
     private String groupName;
+    private long creationTime;
+    private long lastUpdated;
     
    
 
@@ -14,6 +16,7 @@ public class userGroup extends userComponent implements userGroupInterface{
     public userGroup(String groupName){
         this.groupID = UUID.randomUUID().toString();
         this.groupName = groupName;
+        this.creationTime = System.currentTimeMillis();
     }
     
     /* Methods from userComponent */
@@ -37,8 +40,20 @@ public class userGroup extends userComponent implements userGroupInterface{
     public String getName() {
         return groupName;
     }
+    @Override
+    public long getCreationTime() {
+        return this.creationTime;
+    }
+
+    @Override
+    public long getLastUpdated() {
+        return this.lastUpdated;
+    }
+
   
     /* Methods from userGroupInterface */
+
+   
 
     public void addUserGroup(userComponent uc){
         this.userComponents.add(uc);

@@ -13,11 +13,11 @@ import java.awt.event.ActionListener;
 public class HomePage {
     protected int minusUser = 0;
     protected JButton addUser, addGroup, openUserView, showUserTotal, 
-    showGroupTotal, showMsgTotal, showPosPercent;
+    showGroupTotal, showMsgTotal, showPosPercent, verifyID, showLastUpdated;
     protected JTextField userID, groupID, textBox;
     private JFrame mainFrame;
     private JPanel buttonPanel, userIDAddUser, groupIDAddGroup,
-    showUserGroupTotal, openUserViewPanel, showMsgPos, textBoxPanel;
+    showUserGroupTotal, openUserViewPanel, showMsgPos, textBoxPanel, verifyIDShowUpdate;
     private JSplitPane splitPane;
     private JScrollPane scroll;
     protected DefaultMutableTreeNode root;
@@ -78,7 +78,11 @@ public class HomePage {
         showMsgPos.setLayout(new GridLayout(1,2));
         showMsgPos.add(showMsgTotal);
         showMsgPos.add(showPosPercent);
-        
+
+        verifyIDShowUpdate = new JPanel();
+        verifyIDShowUpdate.setLayout(new GridLayout(1,2));
+        verifyIDShowUpdate.add(verifyID);
+        verifyIDShowUpdate.add(showLastUpdated);
 
         openUserViewPanel = new JPanel();
         openUserViewPanel.setLayout(new BorderLayout());
@@ -94,6 +98,7 @@ public class HomePage {
         buttonPanel.add(openUserViewPanel);
         buttonPanel.add(showUserGroupTotal);
         buttonPanel.add(showMsgPos);
+        buttonPanel.add(verifyIDShowUpdate);
         buttonPanel.add(textBoxPanel);
     }
 
@@ -157,6 +162,8 @@ public class HomePage {
         showGroupTotal = new JButton("Show Group Total");
         showMsgTotal = new JButton("Show Messages Total");
         showPosPercent= new JButton("Show Positive Percentage");
+        verifyID = new JButton("Verify Unique ID");
+        showLastUpdated = new JButton("Show Last Updated");
         groupID = new JTextField();
         groupID.setText("Group ID");
         userID = new JTextField();
@@ -173,6 +180,8 @@ public class HomePage {
         showGroupTotal.addActionListener(action);
         showMsgTotal.addActionListener(action);
         showPosPercent.addActionListener(action);
+        verifyID.addActionListener(action);
+        showLastUpdated.addActionListener(action);
     }
 
     /* Logic for button presses on the Admin Panel */
@@ -213,6 +222,13 @@ public class HomePage {
                 float posPercent = (float)userRoot.getUserRoot().getNumberOfPositive()/userRoot.getUserRoot().getNumberOfMessages();
                 textBox.setText(String.valueOf(posPercent*100)+"%");
 
+            }
+            else if(e.getSource() == verifyID){
+                /* By default, all ID's are unique and have no spaces */
+                textBox.setText("All ID's are unique");
+            }
+            else if (e.getSource() == showLastUpdated){
+                textBox.setText(userRoot.getUserRoot().getLastUpdatedUserComponentID());
             }
         }
         

@@ -24,6 +24,17 @@ public class userRoot {
         return uRoot;
     }
 
+    public String getLastUpdatedUserComponentID(){
+        long lastUpdated = 0;
+        String id = "";
+        for(userComponent uc: userRootList){
+            if(uc.getLastUpdated()>lastUpdated){
+                id = uc.getID();
+            }
+        }
+        return id;
+    }
+
     // A user or group has had a change, remove and add updated
     public void updateUserRoot(userComponent updatedUser){
         if(uniqueUsersAndGroups.contains(updatedUser.getID())){

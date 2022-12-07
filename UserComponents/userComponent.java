@@ -18,4 +18,10 @@ public abstract class userComponent {
     public void addObserver(Observer ob){
         throw new UnsupportedOperationException();
     }
+    public long getCreationTime(){
+        throw new UnsupportedOperationException();
+    }
+    public long getLastUpdated(){
+        throw new UnsupportedOperationException();
+    }
 }

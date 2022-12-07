@@ -15,7 +15,7 @@ public class UserViewUI {
     private JTextArea userID, tweetMessage;
     private JButton followUser, postTweet;
     private JList currentFollowing, newsFeed;
-    private JTextField currFolText, newsFeedText, myUUIDtext, myUUID, myName;
+    private JTextField currFolText, newsFeedText, myUUIDtext, myUUID, myName, timeCreated;
     private userViewAction action;
     private UserViewButtonFunctions ubf = new UserViewButtonFunctions();
     private User u;
@@ -41,6 +41,8 @@ public class UserViewUI {
         myUUIDtext = new JTextField("My UUID:");
         myName = new JTextField("User: "+u.getName());
         myName.setEditable(false);
+        timeCreated = new JTextField("Time created: " + u.getCreationTime());
+        timeCreated.setEditable(false);
     }
 
     private void buildGUI(){
@@ -79,6 +81,7 @@ public class UserViewUI {
         
         mainPanel.add(myName);        
         mainPanel.add(UUIDPanel);
+        mainPanel.add(timeCreated);
         mainPanel.add(userIDFollowUser);
         mainPanel.add(currFolText);
         mainPanel.add(currentFolPanel);
